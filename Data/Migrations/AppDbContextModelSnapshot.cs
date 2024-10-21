@@ -17,7 +17,7 @@ namespace AppChiaSeCongThucNauAnBackend.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -212,7 +212,6 @@ namespace AppChiaSeCongThucNauAnBackend.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Bio")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
@@ -231,7 +230,6 @@ namespace AppChiaSeCongThucNauAnBackend.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("SocialMedia")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 

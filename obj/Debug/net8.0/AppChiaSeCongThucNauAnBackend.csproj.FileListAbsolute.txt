@@ -115,3 +115,4 @@ C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Swashbuckle.AspNetCor
 C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Projects\AppChiaSeCongThucNauAnBackend\obj\Debug\net8.0\AppChiaSeCongThucNauAnBackend.MvcApplicationPartsAssemblyInfo.cs
+C:\Projects\AppChiaSeCongThucNauAnBackend\obj\Debug\net8.0\AppChiaSeCongThucNauAnBackend.sourcelink.json

@@ -6,6 +6,13 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Reflection;
 using AppChiaSeCongThucNauAnBackend.Data;
+using Amazon.S3;
+using AppChiaSeCongThucNauAnBackend.Services;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using AppChiaSeCongThucNauAnBackend.PipelineBehaviors;
+using MediatR;
+using AppChiaSeCongThucNauAnBackend.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +21,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Thêm MediatR
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+});
 
 builder.Services.AddCarter();
 
@@ -42,6 +53,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddAWSService<IAmazonS3>();
+builder.Services.AddScoped<S3Service>();
+
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+builder.Services.AddFluentValidationAutoValidation();
+
 var app = builder.Build();
 
 // Sử dụng Swagger
@@ -55,5 +72,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapCarter();
+
+app.UseValidationExceptionHandler();
 
 app.Run();

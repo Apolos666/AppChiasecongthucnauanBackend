@@ -6,8 +6,8 @@ public class User
     public string Email { get; set; }
     public string Password { get; set; }
     public string Name { get; set; }
-    public string Bio { get; set; }
-    public string SocialMedia { get; set; }
+    public string? Bio { get; set; }
+    public string? SocialMedia { get; set; }
 
     public ICollection<Recipe> Recipes { get; set; }
     public ICollection<Comment> Comments { get; set; }
