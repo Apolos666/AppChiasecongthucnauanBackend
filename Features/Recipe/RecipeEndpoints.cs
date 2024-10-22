@@ -31,10 +31,12 @@ public class RecipeEndpoints : ICarterModule
             .RequireAuthorization();
 
         group.MapGet("/{id}", GetRecipe)
-            .WithName("GetRecipe");
+            .WithName("GetRecipe")
+            .AllowAnonymous();
 
         group.MapGet("/", GetRecipes)
-            .WithName("GetRecipes");
+            .WithName("GetRecipes")
+            .AllowAnonymous();
     }
 
     private async Task<IResult> CreateRecipe(
@@ -85,4 +87,3 @@ public class RecipeEndpoints : ICarterModule
         return Results.Ok(recipes);
     }
 }
-

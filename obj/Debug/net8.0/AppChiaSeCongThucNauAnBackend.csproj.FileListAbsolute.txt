@@ -116,3 +116,16 @@ C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Swashbuckle.AspNetCor
 C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Projects\AppChiaSeCongThucNauAnBackend\obj\Debug\net8.0\AppChiaSeCongThucNauAnBackend.MvcApplicationPartsAssemblyInfo.cs
 C:\Projects\AppChiaSeCongThucNauAnBackend\obj\Debug\net8.0\AppChiaSeCongThucNauAnBackend.sourcelink.json
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\AWSSDK.Core.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\AWSSDK.Extensions.NETCore.Setup.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\AWSSDK.S3.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Carter.Analyzers.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Microsoft.Bcl.TimeProvider.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Projects\AppChiaSeCongThucNauAnBackend\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
