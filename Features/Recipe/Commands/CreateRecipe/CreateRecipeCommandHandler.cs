@@ -18,7 +18,7 @@ public class CreateRecipeCommandHandler : IRequestHandler<CreateRecipeCommand, G
     }
 
     public async Task<Guid> Handle(CreateRecipeCommand request, CancellationToken cancellationToken)
-    {
+    { 
         var recipe = new Models.Recipe
         {
             Id = Guid.NewGuid(),

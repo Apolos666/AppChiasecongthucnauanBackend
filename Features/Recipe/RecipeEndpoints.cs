@@ -6,10 +6,8 @@ using AppChiaSeCongThucNauAnBackend.Features.Recipe.Queries.GetRecipes;
 using AppChiaSeCongThucNauAnBackend.Features.Recipe.Dtos;
 using Carter;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Collections.Generic;
 
 namespace AppChiaSeCongThucNauAnBackend.Features.Recipe;
 
