@@ -32,9 +32,9 @@ public class CreateRecipeCommandHandler : IRequestHandler<CreateRecipeCommand, G
 
         _context.Recipes.Add(recipe);
 
-        foreach (var mediaFile in request.RecipeDto.MediaFiles)
+        foreach (var file in request.Files)
         {
-            var mediaUrl = await _s3Service.UploadFileAsync(mediaFile);
+            var mediaUrl = await _s3Service.UploadFileAsync(file);
             var recipeMedia = new RecipeMedia
             {
                 Id = Guid.NewGuid(),
@@ -49,4 +49,3 @@ public class CreateRecipeCommandHandler : IRequestHandler<CreateRecipeCommand, G
         return recipe.Id;
     }
 }
-

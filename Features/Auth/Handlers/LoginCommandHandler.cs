@@ -41,7 +41,6 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
         };

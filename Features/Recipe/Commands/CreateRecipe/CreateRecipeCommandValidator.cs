@@ -10,7 +10,6 @@ public class CreateRecipeCommandValidator : AbstractValidator<CreateRecipeComman
         RuleFor(x => x.RecipeDto.Ingredients).NotEmpty();
         RuleFor(x => x.RecipeDto.Instructions).NotEmpty();
         RuleFor(x => x.RecipeDto.RecipeCategoryId).NotEmpty();
-        RuleFor(x => x.RecipeDto.MediaFiles).NotEmpty();
     }
 }
 

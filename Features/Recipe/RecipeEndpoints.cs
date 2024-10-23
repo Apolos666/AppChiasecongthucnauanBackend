@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Collections.Generic;
 
 namespace AppChiaSeCongThucNauAnBackend.Features.Recipe;
 
@@ -20,7 +21,8 @@ public class RecipeEndpoints : ICarterModule
 
         group.MapPost("/", CreateRecipe)
             .WithName("CreateRecipe")
-            .RequireAuthorization();
+            .RequireAuthorization()
+            .DisableAntiforgery();
 
         group.MapPut("/{id}", UpdateRecipe)
             .WithName("UpdateRecipe")
@@ -41,11 +43,12 @@ public class RecipeEndpoints : ICarterModule
 
     private async Task<IResult> CreateRecipe(
         [FromForm] CreateRecipeDto recipeDto,
+        [FromForm] IFormFileCollection files,
         HttpContext httpContext,
         ISender sender)
     {
         var userId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        var command = new CreateRecipeCommand(recipeDto, userId);
+        var command = new CreateRecipeCommand(recipeDto, files, userId);
         var recipeId = await sender.Send(command);
         return Results.Created($"/api/recipes/{recipeId}", recipeId);
     }
