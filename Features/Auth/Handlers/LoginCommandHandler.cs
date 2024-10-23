@@ -1,12 +1,12 @@
 using AppChiaSeCongThucNauAnBackend.Data;
 using AppChiaSeCongThucNauAnBackend.Features.Auth.Commands;
-using AppChiaSeCongThucNauAnBackend.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AppChiaSeCongThucNauAnBackend.Models;
 
 namespace AppChiaSeCongThucNauAnBackend.Features.Auth.Handlers;
 
@@ -34,7 +34,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
         return token;
     }
 
-    private string GenerateJwtToken(User user)
+    private string GenerateJwtToken(Models.User user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

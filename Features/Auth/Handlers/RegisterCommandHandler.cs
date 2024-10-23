@@ -24,7 +24,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, string>
             throw new Exception("Email đã tồn tại");
         }
 
-        var user = new User
+        var user = new Models.User
         {
             Email = request.RegisterDto.Email,
             Password = BCrypt.Net.BCrypt.HashPassword(request.RegisterDto.Password),
