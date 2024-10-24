@@ -13,6 +13,7 @@ using FluentValidation;
 using AppChiaSeCongThucNauAnBackend.PipelineBehaviors;
 using MediatR;
 using AppChiaSeCongThucNauAnBackend.Middlewares;
+using AppChiaSeCongThucNauAnBackend.Features.Comment.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +60,8 @@ builder.Services.AddScoped<S3Service>();
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 builder.Services.AddFluentValidationAutoValidation();
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Sử dụng Swagger
@@ -71,6 +74,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapHub<CommentHub>("/hub/comment");
 app.MapCarter();
 
 app.UseValidationExceptionHandler();
