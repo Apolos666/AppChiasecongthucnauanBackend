@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AppChiaSeCongThucNauAnBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a8343a8eb785512b40a739f144a51fc9ea564dd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a09147b978f41db2bc4dfd62d5ea8c2ade4949ff")]
 [assembly: System.Reflection.AssemblyProductAttribute("AppChiaSeCongThucNauAnBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AppChiaSeCongThucNauAnBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
