@@ -14,6 +14,7 @@ using AppChiaSeCongThucNauAnBackend.PipelineBehaviors;
 using MediatR;
 using AppChiaSeCongThucNauAnBackend.Middlewares;
 using AppChiaSeCongThucNauAnBackend.Features.Comment.Hubs;
+using AppChiaSeCongThucNauAnBackend.Features.Chat.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +76,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHub<CommentHub>("/hub/comment");
+app.MapHub<ChatHub>("/hub/chat");
 app.MapCarter();
 
 app.UseValidationExceptionHandler();
