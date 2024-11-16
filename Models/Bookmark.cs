@@ -1,3 +1,5 @@
+
+
 namespace AppChiaSeCongThucNauAnBackend.Models;
 
 public class Bookmark
@@ -7,6 +9,6 @@ public class Bookmark
     public Guid UserId { get; set; }
     public DateTime CreatedAt { get; set; }
 
-    public Recipe Recipe { get; set; }
-    public User User { get; set; }
+    public virtual Recipe Recipe { get; set; }
+    public virtual User User { get; set; }
 }

@@ -63,6 +63,8 @@ builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddSignalR();
 
+builder.Services.AddScoped<IBookmarkService, BookmarkService>();
+
 var app = builder.Build();
 
 // Sử dụng Swagger
