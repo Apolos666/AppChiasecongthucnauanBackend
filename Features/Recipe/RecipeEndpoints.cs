@@ -8,6 +8,8 @@ using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using AppChiaSeCongThucNauAnBackend.Features.Recipe.Commands.LikeRecipe;
+using AppChiaSeCongThucNauAnBackend.Features.Recipe.Commands.UnlikeRecipe;
 
 namespace AppChiaSeCongThucNauAnBackend.Features.Recipe;
 
@@ -32,11 +34,19 @@ public class RecipeEndpoints : ICarterModule
 
         group.MapGet("/{id}", GetRecipe)
             .WithName("GetRecipe")
-            .AllowAnonymous();
+            .RequireAuthorization();
 
         group.MapGet("/", GetRecipes)
             .WithName("GetRecipes")
             .AllowAnonymous();
+
+        group.MapPost("/{id}/like", LikeRecipe)
+            .WithName("LikeRecipe")
+            .RequireAuthorization();
+
+        group.MapDelete("/{id}/unlike", UnlikeRecipe)
+            .WithName("UnlikeRecipe")
+            .RequireAuthorization();
     }
 
     private async Task<IResult> CreateRecipe(
@@ -74,9 +84,14 @@ public class RecipeEndpoints : ICarterModule
         return result ? Results.NoContent() : Results.NotFound();
     }
 
-    private async Task<IResult> GetRecipe(Guid id, ISender sender)
+    private async Task<IResult> GetRecipe(Guid id, HttpContext httpContext, ISender sender)
     {
-        var query = new GetRecipeQuery(id);
+        Guid? currentUserId = null;
+        if (httpContext.User.Identity?.IsAuthenticated == true)
+        {
+            currentUserId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        }
+        var query = new GetRecipeQuery(id, currentUserId);
         var recipe = await sender.Send(query);
         return recipe != null ? Results.Ok(recipe) : Results.NotFound();
     }
@@ -86,5 +101,27 @@ public class RecipeEndpoints : ICarterModule
         var query = new GetRecipesQuery();
         var recipes = await sender.Send(query);
         return Results.Ok(recipes);
+    }
+
+    private async Task<IResult> LikeRecipe(
+        Guid id,
+        HttpContext httpContext,
+        ISender sender)
+    {
+        var userId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var command = new LikeRecipeCommand(userId, id);
+        var result = await sender.Send(command);
+        return result ? Results.Ok() : Results.BadRequest("Đã like recipe này rồi");
+    }
+
+    private async Task<IResult> UnlikeRecipe(
+        Guid id,
+        HttpContext httpContext,
+        ISender sender)
+    {
+        var userId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var command = new UnlikeRecipeCommand(userId, id);
+        var result = await sender.Send(command);
+        return result ? Results.Ok() : Results.BadRequest("Chưa like recipe này");
     }
 }

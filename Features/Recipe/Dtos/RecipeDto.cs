@@ -12,6 +12,7 @@ public class RecipeDto
     public DateTime CreatedAt { get; set; }
     public List<string> MediaUrls { get; set; }
     public int LikesCount { get; set; }
+    public bool IsLiked { get; set; }
     public List<CommentDto> Comments { get; set; }
 }
 

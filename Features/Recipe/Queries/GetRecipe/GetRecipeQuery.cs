@@ -3,5 +3,5 @@ using MediatR;
 
 namespace AppChiaSeCongThucNauAnBackend.Features.Recipe.Queries.GetRecipe;
 
-public record GetRecipeQuery(Guid RecipeId) : IRequest<RecipeDto>;
+public record GetRecipeQuery(Guid RecipeId, Guid? CurrentUserId = null) : IRequest<RecipeDto>;
 

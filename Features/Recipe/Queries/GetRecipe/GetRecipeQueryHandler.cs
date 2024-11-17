@@ -5,18 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppChiaSeCongThucNauAnBackend.Features.Recipe.Queries.GetRecipe;
 
-public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto>
+public class GetRecipeQueryHandler(AppDbContext context) : IRequestHandler<GetRecipeQuery, RecipeDto>
 {
-    private readonly AppDbContext _context;
-
-    public GetRecipeQueryHandler(AppDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<RecipeDto> Handle(GetRecipeQuery request, CancellationToken cancellationToken)
     {
-        var recipe = await _context.Recipes
+        var recipe = await context.Recipes
             .Include(r => r.RecipeMedia)
             .Include(r => r.RecipeLikes)
             .Include(r => r.Comments)
@@ -35,6 +28,7 @@ public class GetRecipeQueryHandler : IRequestHandler<GetRecipeQuery, RecipeDto>
                 CreatedAt = r.CreatedAt,
                 MediaUrls = r.RecipeMedia.Select(rm => rm.MediaUrl).ToList(),
                 LikesCount = r.RecipeLikes.Count,
+                IsLiked = request.CurrentUserId.HasValue && r.RecipeLikes.Any(rl => rl.UserId == request.CurrentUserId),
                 Comments = r.Comments.Select(cm => new CommentDto
                 {
                     UserId = cm.UserId,
