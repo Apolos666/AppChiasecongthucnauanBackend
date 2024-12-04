@@ -23,5 +23,15 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        modelBuilder.Entity<Bookmark>()
+            .HasOne(b => b.Recipe)
+            .WithMany(r => r.Bookmarks)
+            .HasForeignKey(b => b.RecipeId);
+        
+        modelBuilder.Entity<Bookmark>()
+            .HasOne(b => b.User)
+            .WithMany(u => u.Bookmarks)
+            .HasForeignKey(b => b.UserId);
     }
 }
