@@ -8,9 +8,9 @@ namespace AppChiaSeCongThucNauAnBackend.Services
 {
     public interface IBookmarkService
     {
-        Task<Bookmark> CreateBookmarkAsync(BookmarkCreateDto dto);
-        Task RemoveBookmarkAsync(Guid id);
-        Task<Bookmark> GetBookmarkByIdAsync(Guid id);
-        Task<object> CreateBookmarkAsync(Controllers.BookmarkCreateDto dto);
+        Task<bool> AddBookmarkAsync(Guid userId, Guid recipeId);
+        Task<bool> RemoveBookmarkAsync(Guid userId, Guid recipeId);
+        Task<IEnumerable<object>> GetBookmarksAsync(Guid userId);
+        Task<bool> CheckBookmarkStatusAsync(Guid userId, Guid recipeId);
     }
 }

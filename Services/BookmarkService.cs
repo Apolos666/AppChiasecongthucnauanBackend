@@ -1,59 +1,82 @@
 using Microsoft.EntityFrameworkCore;
-using AppChiaSeCongThucNauAnBackend.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AppChiaSeCongThucNauAnBackend.Services;
 using AppChiaSeCongThucNauAnBackend.Data;
+using AppChiaSeCongThucNauAnBackend.Models;
 
-namespace AppChiaSeCongThucNauAnBackend.Services
+namespace AppChiaSeCongThucNauAnBackend.Services;
+
+public class BookmarkService : IBookmarkService
 {
-    public class BookmarkService : IBookmarkService
+    private readonly AppDbContext _context;
+
+    public BookmarkService(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public BookmarkService(AppDbContext context)
+    public async Task<bool> AddBookmarkAsync(Guid userId, Guid recipeId)
+    {
+        var existingBookmark = await _context.Bookmarks
+            .FirstOrDefaultAsync(b => b.UserId == userId && b.RecipeId == recipeId);
+
+        if (existingBookmark != null)
         {
-            _context = context;
+            return false;
         }
 
-        public async Task<Bookmark> CreateBookmarkAsync(BookmarkCreateDto dto)
+        var bookmark = new Bookmark
         {
-            var bookmark = new Bookmark
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            RecipeId = recipeId,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _context.Bookmarks.Add(bookmark);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> RemoveBookmarkAsync(Guid userId, Guid recipeId)
+    {
+        var bookmark = await _context.Bookmarks
+            .FirstOrDefaultAsync(b => b.UserId == userId && b.RecipeId == recipeId);
+
+        if (bookmark == null)
+        {
+            return false;
+        }
+
+        _context.Bookmarks.Remove(bookmark);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<IEnumerable<object>> GetBookmarksAsync(Guid userId)
+    {
+        return await _context.Bookmarks
+            .Where(b => b.UserId == userId)
+            .Include(b => b.Recipe)
+                .ThenInclude(r => r.RecipeMedia)
+            .Include(b => b.Recipe)
+                .ThenInclude(r => r.User)
+            .Select(b => new
             {
-                Id = Guid.NewGuid(),
-                RecipeId = dto.RecipeId,
-                UserId = dto.UserId,
-                CreatedAt = DateTime.UtcNow
-            };
+                b.Id,
+                b.RecipeId,
+                b.Recipe.Title,
+                CreatorName = b.Recipe.User.Name,
+                MediaUrl = b.Recipe.RecipeMedia
+                    .OrderBy(m => m.Id)
+                    .Select(m => m.MediaUrl)
+                    .FirstOrDefault(),
+                b.CreatedAt
+            })
+            .ToListAsync();
+    }
 
-            _context.Bookmarks.Add(bookmark);
-            await _context.SaveChangesAsync();
-            
-            return bookmark;
-        }
-
-        public async Task RemoveBookmarkAsync(Guid id)
-        {
-            var bookmark = await _context.Bookmarks.FindAsync(id);
-            if (bookmark != null)
-            {
-                _context.Bookmarks.Remove(bookmark);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<Bookmark> GetBookmarkByIdAsync(Guid id)
-        {
-            return await _context.Bookmarks
-                .Include(b => b.Recipe)
-                .SingleOrDefaultAsync(b => b.Id == id);
-        }
-
-        public Task<object> CreateBookmarkAsync(Controllers.BookmarkCreateDto dto)
-        {
-            throw new NotImplementedException();
-        }
+    public async Task<bool> CheckBookmarkStatusAsync(Guid userId, Guid recipeId)
+    {
+        return await _context.Bookmarks
+            .AnyAsync(b => b.UserId == userId && b.RecipeId == recipeId);
     }
 } 
