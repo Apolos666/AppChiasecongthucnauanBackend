@@ -26,11 +26,13 @@ public class RecipeEndpoints : ICarterModule
 
         group.MapPut("/{id}", UpdateRecipe)
             .WithName("UpdateRecipe")
-            .RequireAuthorization();
+            .RequireAuthorization()
+            .DisableAntiforgery();
 
         group.MapDelete("/{id}", DeleteRecipe)
             .WithName("DeleteRecipe")
-            .RequireAuthorization();
+            .RequireAuthorization()
+            .DisableAntiforgery();
 
         group.MapGet("/{id}", GetRecipe)
             .WithName("GetRecipe")
@@ -63,7 +65,7 @@ public class RecipeEndpoints : ICarterModule
 
     private async Task<IResult> UpdateRecipe(
         Guid id,
-        [FromForm] UpdateRecipeDto recipeDto,
+        [FromBody] UpdateRecipeDto recipeDto, // Thay đổi [FromForm] thành [FromBody]
         HttpContext httpContext,
         ISender sender)
     {
