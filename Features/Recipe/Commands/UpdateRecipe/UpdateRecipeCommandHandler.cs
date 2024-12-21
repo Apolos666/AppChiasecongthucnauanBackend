@@ -1,5 +1,6 @@
-﻿using AppChiaSeCongThucNauAnBackend.Data;
+using AppChiaSeCongThucNauAnBackend.Data;
 using AppChiaSeCongThucNauAnBackend.Models;
+using AppChiaSeCongThucNauAnBackend.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,38 +10,39 @@ public class UpdateRecipeCommandHandler : IRequestHandler<UpdateRecipeCommand, b
 {
     private readonly AppDbContext _context;
 
-    public UpdateRecipeCommandHandler(AppDbContext context)
+    public UpdateRecipeCommandHandler(AppDbContext context, S3Service s3Service)
     {
         _context = context;
     }
 
     public async Task<bool> Handle(UpdateRecipeCommand request, CancellationToken cancellationToken)
     {
-        // Tìm recipe cần update
         var recipe = await _context.Recipes
-            .FirstOrDefaultAsync(r => r.Id == request.RecipeId && r.UserId == request.UserId,
-                cancellationToken);
+            .Include(r => r.RecipeMedia)
+            .FirstOrDefaultAsync(r => r.Id == request.RecipeId, cancellationToken);
 
-        // Nếu không tìm thấy recipe hoặc không phải chủ sở hữu
         if (recipe == null)
         {
             return false;
         }
 
-        // Cập nhật thông tin cơ bản
         recipe.Title = request.RecipeDto.Title;
         recipe.Ingredients = request.RecipeDto.Ingredients;
         recipe.Instructions = request.RecipeDto.Instructions;
-        recipe.RecipeCategoryId = request.RecipeDto.RecipeCategoryId;
+        recipe.IsApproved = request.RecipeDto.IsApproved;
 
-        try
+        foreach (var removedUrl in request.RecipeDto.RemovedMediaUrls)
         {
-            await _context.SaveChangesAsync(cancellationToken);
-            return true;
+            var mediaToRemove = recipe.RecipeMedia.FirstOrDefault(m => m.MediaUrl == removedUrl);
+            if (mediaToRemove != null)
+            {
+                _context.RecipeMedia.Remove(mediaToRemove);
+            }
         }
-        catch (Exception)
-        {
-            return false;
-        }
+
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return true;
     }
 }
+

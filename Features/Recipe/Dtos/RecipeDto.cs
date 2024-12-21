@@ -13,6 +13,7 @@ public class RecipeDto
     public List<string> MediaUrls { get; set; }
     public int LikesCount { get; set; }
     public bool IsLiked { get; set; }
+    public bool IsApproved { get; set; }
     public List<CommentDto> Comments { get; set; }
 }
 

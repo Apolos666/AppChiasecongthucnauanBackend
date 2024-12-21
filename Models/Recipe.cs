@@ -9,6 +9,7 @@ public class Recipe
     public Guid RecipeCategoryId { get; set; }
     public string Title { get; set; }
     public DateTime CreatedAt { get; set; }
+    public bool IsApproved { get; set; }
 
     public User User { get; set; }
     public RecipeCategory RecipeCategory { get; set; }

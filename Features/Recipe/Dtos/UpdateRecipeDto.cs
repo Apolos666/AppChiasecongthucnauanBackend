@@ -5,8 +5,8 @@ public class UpdateRecipeDto
     public string Title { get; set; }
     public string Ingredients { get; set; }
     public string Instructions { get; set; }
-    public Guid RecipeCategoryId { get; set; }
-    //public List<IFormFile> NewMediaFiles { get; set; }
-    //public List<string> DeletedMediaUrls { get; set; 
+    public bool IsApproved { get; set; }
+    public List<string> MediaUrls { get; set; } 
+    public List<string> RemovedMediaUrls { get; set; }
 }
 

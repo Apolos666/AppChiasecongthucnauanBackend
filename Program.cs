@@ -63,6 +63,15 @@ builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddSignalR();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
+
 builder.Services.AddScoped<IBookmarkService, BookmarkService>();
 
 var app = builder.Build();
@@ -76,6 +85,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("AllowSpecificOrigin");
+
 
 app.MapHub<CommentHub>("/hub/comment");
 app.MapHub<ChatHub>("/hub/chat");

@@ -35,6 +35,7 @@ public class GetRecipesQueryHandler : IRequestHandler<GetRecipesQuery, List<Reci
                 CreatedAt = r.CreatedAt,
                 MediaUrls = r.RecipeMedia.Select(rm => rm.MediaUrl).ToList(),
                 LikesCount = r.RecipeLikes.Count,
+                IsApproved = r.IsApproved,
                 Comments = r.Comments.Select(cm => new CommentDto
                 {
                     UserId = cm.UserId,

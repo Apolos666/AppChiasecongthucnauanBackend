@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using AppChiaSeCongThucNauAnBackend.Features.Recipe.Commands.LikeRecipe;
 using AppChiaSeCongThucNauAnBackend.Features.Recipe.Commands.UnlikeRecipe;
+using AppChiaSeCongThucNauAnBackend.Features.Recipe.Commands.ApproveRecipe;
 
 namespace AppChiaSeCongThucNauAnBackend.Features.Recipe;
 
@@ -31,8 +32,7 @@ public class RecipeEndpoints : ICarterModule
 
         group.MapDelete("/{id}", DeleteRecipe)
             .WithName("DeleteRecipe")
-            .RequireAuthorization()
-            .DisableAntiforgery();
+            .RequireAuthorization();
 
         group.MapGet("/{id}", GetRecipe)
             .WithName("GetRecipe")
@@ -49,6 +49,10 @@ public class RecipeEndpoints : ICarterModule
         group.MapDelete("/{id}/unlike", UnlikeRecipe)
             .WithName("UnlikeRecipe")
             .RequireAuthorization();
+
+        group.MapPost("/{id:guid}/approve", ApproveRecipe)
+            .WithName("ApproveRecipe")
+            .AllowAnonymous();
     }
 
     private async Task<IResult> CreateRecipe(
@@ -65,7 +69,7 @@ public class RecipeEndpoints : ICarterModule
 
     private async Task<IResult> UpdateRecipe(
         Guid id,
-        [FromBody] UpdateRecipeDto recipeDto, // Thay đổi [FromForm] thành [FromBody]
+        UpdateRecipeDto recipeDto,
         HttpContext httpContext,
         ISender sender)
     {
@@ -80,8 +84,7 @@ public class RecipeEndpoints : ICarterModule
         HttpContext httpContext,
         ISender sender)
     {
-        var userId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-        var command = new DeleteRecipeCommand(id, userId);
+        var command = new DeleteRecipeCommand(id);
         var result = await sender.Send(command);
         return result ? Results.NoContent() : Results.NotFound();
     }
@@ -93,7 +96,7 @@ public class RecipeEndpoints : ICarterModule
         {
             currentUserId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         }
-        var query = new GetRecipeQuery(id, currentUserId);
+        var query = new GetRecipeQuery(id);
         var recipe = await sender.Send(query);
         return recipe != null ? Results.Ok(recipe) : Results.NotFound();
     }
@@ -125,5 +128,14 @@ public class RecipeEndpoints : ICarterModule
         var command = new UnlikeRecipeCommand(userId, id);
         var result = await sender.Send(command);
         return result ? Results.Ok() : Results.BadRequest("Chưa like recipe này");
+    }
+
+    private async Task<IResult> ApproveRecipe(
+        Guid id,
+        ISender sender)
+    {
+        var command = new ApproveRecipeCommand(id);
+        var result = await sender.Send(command);
+        return result ? Results.Ok() : Results.NotFound();
     }
 }

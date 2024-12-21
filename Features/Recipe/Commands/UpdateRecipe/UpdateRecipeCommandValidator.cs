@@ -9,7 +9,6 @@ public class UpdateRecipeCommandValidator : AbstractValidator<UpdateRecipeComman
         RuleFor(x => x.RecipeDto.Title).NotEmpty().MaximumLength(255);
         RuleFor(x => x.RecipeDto.Ingredients).NotEmpty();
         RuleFor(x => x.RecipeDto.Instructions).NotEmpty();
-        RuleFor(x => x.RecipeDto.RecipeCategoryId).NotEmpty();
     }
 }
 
