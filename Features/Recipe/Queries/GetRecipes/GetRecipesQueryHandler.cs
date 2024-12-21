@@ -38,6 +38,7 @@ public class GetRecipesQueryHandler : IRequestHandler<GetRecipesQuery, List<Reci
                 IsApproved = r.IsApproved,
                 Comments = r.Comments.Select(cm => new CommentDto
                 {
+                    Id = cm.Id,
                     UserId = cm.UserId,
                     UserName = cm.User.Name,
                     Content = cm.Content,

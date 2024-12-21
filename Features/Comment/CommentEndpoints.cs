@@ -2,6 +2,7 @@ using AppChiaSeCongThucNauAnBackend.Features.Comment.Commands.CreateComment;
 using Carter;
 using MediatR;
 using System.Security.Claims;
+using AppChiaSeCongThucNauAnBackend.Features.Comment.Commands.DeleteComment;
 
 namespace AppChiaSeCongThucNauAnBackend.Features.Comment;
 
@@ -13,6 +14,8 @@ public class CommentEndpoints : ICarterModule
 
         group.MapPost("/", CreateComment)
             .RequireAuthorization();
+
+        group.MapDelete("/{id}", DeleteComment);    
     }
 
     private async Task<IResult> CreateComment(
@@ -24,6 +27,14 @@ public class CommentEndpoints : ICarterModule
         var command = new CreateCommentCommand(userId, request.RecipeId, request.Content);
         var result = await mediator.Send(command);
         return Results.Ok(result);
+    }
+
+    private static async Task<IResult> DeleteComment(Guid id, IMediator mediator)
+    {
+        var command = new DeleteCommentCommand(id);
+        var result = await mediator.Send(command);
+        
+        return result ? Results.Ok() : Results.NotFound("Không tìm thấy bình luận");
     }
 }
 

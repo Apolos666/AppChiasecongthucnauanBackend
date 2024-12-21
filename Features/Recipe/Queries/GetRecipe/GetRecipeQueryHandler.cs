@@ -31,6 +31,7 @@ public class GetRecipeQueryHandler(AppDbContext context) : IRequestHandler<GetRe
                 IsLiked = request.CurrentUserId.HasValue && r.RecipeLikes.Any(rl => rl.UserId == request.CurrentUserId),
                 Comments = r.Comments.Select(cm => new CommentDto
                 {
+                    Id = cm.Id,
                     UserId = cm.UserId,
                     UserName = cm.User.Name,
                     Content = cm.Content,
