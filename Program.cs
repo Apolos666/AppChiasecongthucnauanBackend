@@ -66,9 +66,14 @@ builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        builder => builder.WithOrigins("http://localhost:5173")
+        builder => builder.WithOrigins("https://admindidong-i8l8jye1b-apolos666s-projects.vercel.app/")
             .AllowAnyHeader()
             .AllowAnyMethod());
+
+    options.AddPolicy("AllowAll", builder =>
+            builder.WithOrigins("*")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
 
 
@@ -86,7 +91,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("AllowAll");
 
 
 app.MapHub<CommentHub>("/hub/comment");

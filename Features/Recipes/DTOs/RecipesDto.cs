@@ -8,4 +8,5 @@ public class RecipesDto
     public DateTime CreatedAt { get; set; }
     public string ImageUrl { get; set; }
     public bool IsTrending { get; set; }
+    public bool IsApproved { get; set; }
 }

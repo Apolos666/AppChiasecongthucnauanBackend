@@ -40,6 +40,7 @@ public class SearchQueryHandler : IRequestHandler<SearchQuery, SearchResultDto>
                 Id = r.Id,
                 Title = r.Title,
                 ChefName = r.User.Name,
+                IsApproved = r.IsApproved,
                 ThumbnailUrl = r.RecipeMedia
                 .Select(m => m.MediaUrl)
                 .FirstOrDefault()

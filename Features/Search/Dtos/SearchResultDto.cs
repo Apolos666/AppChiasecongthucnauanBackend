@@ -17,4 +17,5 @@ public class RecipeSearchResultDto
     public string Title { get; set; }
     public string ChefName { get; set; }
     public string? ThumbnailUrl { get; set; }
+    public bool IsApproved { get; set; }
 }

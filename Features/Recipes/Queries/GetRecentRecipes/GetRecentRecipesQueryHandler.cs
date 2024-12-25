@@ -29,6 +29,7 @@ namespace AppChiaSeCongThucNauAnBackend.Features.Recipes.Queries.GetRecentRecipe
                     ChefName = r.User.Name,
                     LikesCount = r.RecipeLikes.Count,
                     CreatedAt = r.CreatedAt,
+                    IsApproved = r.IsApproved,
                     ImageUrl = r.RecipeMedia.Select(m => m.MediaUrl).FirstOrDefault(),
                     IsTrending = false
                 })

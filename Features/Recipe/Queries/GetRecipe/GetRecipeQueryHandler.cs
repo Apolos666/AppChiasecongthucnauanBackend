@@ -29,6 +29,7 @@ public class GetRecipeQueryHandler(AppDbContext context) : IRequestHandler<GetRe
                 MediaUrls = r.RecipeMedia.Select(rm => rm.MediaUrl).ToList(),
                 LikesCount = r.RecipeLikes.Count,
                 IsLiked = request.CurrentUserId.HasValue && r.RecipeLikes.Any(rl => rl.UserId == request.CurrentUserId),
+                IsApproved = r.IsApproved,
                 Comments = r.Comments.Select(cm => new CommentDto
                 {
                     Id = cm.Id,

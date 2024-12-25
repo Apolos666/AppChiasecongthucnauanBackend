@@ -96,7 +96,7 @@ public class RecipeEndpoints : ICarterModule
         {
             currentUserId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         }
-        var query = new GetRecipeQuery(id);
+        var query = new GetRecipeQuery(id, currentUserId);
         var recipe = await sender.Send(query);
         return recipe != null ? Results.Ok(recipe) : Results.NotFound();
     }
